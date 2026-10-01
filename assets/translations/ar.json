@@ -1,0 +1,125 @@
+{
+  "spin_wheel": {
+    "title": "هديتك مستنياك!",
+    "subtitle": "لف العجلة واكتشف جائزتك",
+    "spin_now": "لف العجلة الآن",
+    "use_later": "استخدام لاحقًا",
+    "won": "مبروك! كسبت {}",
+    "prizes": {
+      "free_meal": "وجبة\nمجانية",
+      "discount_20": "خصم\n20%",
+      "surprise_gift": "هدية\nمفاجأة",
+      "free_diet_plan": "نظام غذائي\nمجاني",
+      "double_points": "نقاط\nمضاعفة",
+      "free_consultation": "استشارة\nمجانية",
+      "discount_10": "خصم\n10%",
+      "extra_meal": "وجبة\nإضافية"
+    }
+  },
+  "calorie_results": {
+    "title": "نتائج السعرات",
+    "subtitle": "لقد قمنا بحساب احتياجك اليومي بناءً على أهدافك",
+    "daily_need": "احتياجك اليومي",
+    "kcal": "سعرة حرارية",
+    "macros": "العناصر الغذائية",
+    "protein": "بروتين",
+    "carbs": "كارب",
+    "fats": "دهون",
+    "gram": "ج",
+    "packages_title": "الباقات المناسبة لك",
+    "view_all": "عرض الكل",
+    "fits_goal": "مناسب لهدفك",
+    "currency": "ر.س",
+    "per_month": "/ شهرياً",
+    "subscribe": "اشترك الآن",
+    "error": "حدث خطأ أثناء تحميل النتائج",
+    "retry": "إعادة المحاولة",
+    "mock": {
+      "healthy_balance_name": "باقة التوازن الصحي",
+      "healthy_balance_description": "صُممت خصيصاً للمحافظة على الوزن وبناء عادات صحية مستدامة.",
+      "meals_per_day": "3 وجبات يومياً",
+      "free_delivery": "توصيل مجاني",
+      "free_consultation": "استشارة مجانية مع أخصائي تغذية"
+    }
+  },
+  "calorie_calculator": {
+    "title": "برنامج حساب السعرات",
+    "subtitle": "أدخل بياناتك لنحسب احتياجك اليومي\nمن السعرات الحرارية",
+    "basic_info": "بياناتك الأساسية",
+    "gender": "الجنس",
+    "male": "ذكر",
+    "female": "أنثى",
+    "weight": "الوزن",
+    "height": "الطول",
+    "age": "العمر",
+    "kg": "كجم",
+    "cm": "سم",
+    "year": "سنة",
+    "activity_level": "مستوى النشاط",
+    "activity": {
+      "sedentary": "خامل",
+      "light": "خفيف",
+      "moderate": "متوسط",
+      "active": "نشيط",
+      "very_active": "نشيط جداً"
+    },
+    "goal_title": "ما هو هدفك؟",
+    "goal": {
+      "lose": "خسارة الوزن",
+      "maintain": "تثبيت الوزن",
+      "gain": "زيادة الوزن"
+    },
+    "calculate": "احسب سعراتي",
+    "hint": "سنقترح لك الاشتراك المناسب بناءً على احتياجك اليومي"
+  },
+  "home": {
+    "greeting": "مرحبًا {name}",
+    "greeting_subtitle": "جاهز ليوم صحي جديد؟",
+    "search_hint": "ابحث عن وجبة أو باقة...",
+    "quick_action": {
+      "order_meal": "اطلب وجبة",
+      "my_orders": "طلباتي",
+      "my_subscription": "اشتراكي",
+      "packages": "الباقات",
+      "my_steps": "خطواتي"
+    },
+    "meal_of_the_day": "وجبة اليوم المقترحة",
+    "calories_value": "{} سعر حراري",
+    "protein_value": "{} غ بروتين",
+    "view_meal": "عرض الوجبة",
+    "suitable_packages": "الباقات المناسبة لك",
+    "most_ordered": "الأكثر طلبًا",
+    "view_all": "عرض الكل",
+    "price": "{} ريال",
+    "period": {
+      "monthly": "شهري",
+      "weekly": "أسبوعي"
+    },
+    "meals_per_day": {
+      "one": "وجبة يومياً",
+      "two": "وجبتين يومياً",
+      "other": "{} وجبات يومياً"
+    },
+    "today_steps": "{} خطوة اليوم",
+    "steps_goal": "الهدف: {} خطوة",
+    "health_tip_title": "نصيحة اليوم الصحية",
+    "error_message": "حدث خطأ، حاول مرة أخرى",
+    "retry": "إعادة المحاولة"
+  },
+  "nav_bar": {
+    "home": "الرئيسية",
+    "my_orders": "طلباتي",
+    "calories": "السعرات",
+    "meals": "الوجبات",
+    "account": "الحساب"
+  },
+  "cinema_details": {
+    "movies": "الأفلام",
+    "comments": "التعليقات",
+    "review": "التقييم",
+    "add_comment": "أضف تعليقاً",
+    "duration": "{} ساعة {} دقيقة",
+    "error": "حدث خطأ أثناء تحميل تفاصيل السينما",
+    "retry": "إعادة المحاولة"
+  }
+}

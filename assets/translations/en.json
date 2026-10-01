@@ -1,0 +1,124 @@
+{
+  "spin_wheel": {
+    "title": "Your gift is waiting!",
+    "subtitle": "Spin the wheel and discover your prize",
+    "spin_now": "Spin the wheel now",
+    "use_later": "Use later",
+    "won": "Congrats! You won {}",
+    "prizes": {
+      "free_meal": "Free\nmeal",
+      "discount_20": "20%\noff",
+      "surprise_gift": "Surprise\ngift",
+      "free_diet_plan": "Free diet\nplan",
+      "double_points": "Double\npoints",
+      "free_consultation": "Free\nconsultation",
+      "discount_10": "10%\noff",
+      "extra_meal": "Extra\nmeal"
+    }
+  },
+  "calorie_results": {
+    "title": "Calorie Results",
+    "subtitle": "We've calculated your daily needs based on your goals",
+    "daily_need": "Your daily need",
+    "kcal": "kcal",
+    "macros": "Macronutrients",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fats": "Fats",
+    "gram": "g",
+    "packages_title": "Plans that suit you",
+    "view_all": "View all",
+    "fits_goal": "Fits your goal",
+    "currency": "SAR",
+    "per_month": "/ month",
+    "subscribe": "Subscribe now",
+    "error": "Something went wrong while loading your results",
+    "retry": "Retry",
+    "mock": {
+      "healthy_balance_name": "Healthy Balance Plan",
+      "healthy_balance_description": "Designed to help you maintain your weight and build lasting healthy habits.",
+      "meals_per_day": "3 meals a day",
+      "free_delivery": "Free delivery",
+      "free_consultation": "Free consultation with a nutritionist"
+    }
+  },
+  "calorie_calculator": {
+    "title": "Calorie Calculator",
+    "subtitle": "Enter your details so we can calculate\nyour daily calorie needs",
+    "basic_info": "Your basic info",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "weight": "Weight",
+    "height": "Height",
+    "age": "Age",
+    "kg": "kg",
+    "cm": "cm",
+    "year": "yrs",
+    "activity_level": "Activity level",
+    "activity": {
+      "sedentary": "Sedentary",
+      "light": "Light",
+      "moderate": "Moderate",
+      "active": "Active",
+      "very_active": "Very active"
+    },
+    "goal_title": "What is your goal?",
+    "goal": {
+      "lose": "Lose weight",
+      "maintain": "Maintain weight",
+      "gain": "Gain weight"
+    },
+    "calculate": "Calculate my calories",
+    "hint": "We'll suggest the right plan based on your daily needs"
+  },
+  "home": {
+    "greeting": "Hello, {name}",
+    "greeting_subtitle": "Ready for a new healthy day?",
+    "search_hint": "Search for a meal or package...",
+    "quick_action": {
+      "order_meal": "Order meal",
+      "my_orders": "My orders",
+      "my_subscription": "Subscription",
+      "packages": "Packages",
+      "my_steps": "My steps"
+    },
+    "meal_of_the_day": "Suggested meal of the day",
+    "calories_value": "{} kcal",
+    "protein_value": "{} g protein",
+    "view_meal": "View meal",
+    "suitable_packages": "Packages for you",
+    "most_ordered": "Most ordered",
+    "view_all": "View all",
+    "price": "{} SAR",
+    "period": {
+      "monthly": "Monthly",
+      "weekly": "Weekly"
+    },
+    "meals_per_day": {
+      "one": "1 meal a day",
+      "other": "{} meals a day"
+    },
+    "today_steps": "{} steps today",
+    "steps_goal": "Goal: {} steps",
+    "health_tip_title": "Today's health tip",
+    "error_message": "Something went wrong, please try again",
+    "retry": "Retry"
+  },
+  "nav_bar": {
+    "home": "Home",
+    "my_orders": "My orders",
+    "calories": "Calories",
+    "meals": "Meals",
+    "account": "Account"
+  },
+  "cinema_details": {
+    "movies": "Movies",
+    "comments": "Comments",
+    "review": "Review",
+    "add_comment": "Add Comment",
+    "duration": "{} hour {} minutes",
+    "error": "Something went wrong while loading the cinema details",
+    "retry": "Retry"
+  }
+}
