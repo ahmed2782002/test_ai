@@ -1,12 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_text.dart';
-import 'feature/cinema_details/presentation/view/screen/cinema_details_screen.dart';
-import 'feature/cinema_details/presentation/view_model/cinema_details_cubit.dart';
+import 'feature/layout/presentation/view/screen/layout_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,10 +42,7 @@ class MyApp extends StatelessWidget {
           key: ValueKey(context.locale),
           child: child!,
         ),
-        home: BlocProvider(
-          create: (_) => CinemaDetailsCubit()..load(),
-          child: const CinemaDetailsScreen(),
-        ),
+        home: const LayoutScreen(),
       ),
     );
   }
