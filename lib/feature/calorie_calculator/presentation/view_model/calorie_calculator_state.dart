@@ -1,4 +1,4 @@
-import '../../mock_model/gender.dart';
+enum Gender { male, female }
 
 enum CalorieCalculatorStatus { initial, submitted }
 

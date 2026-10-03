@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,28 +8,19 @@ import '../../../../../core/theme/app_shadows.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/utils/app_icons.dart';
 import '../../../../../core/widgets/app_svg_icon/app_svg_icon.dart';
+import '../../../mock_model/activity_level_model.dart';
 
 class ActivityLevelCard extends StatelessWidget {
-  final String title;
-  final String? iconAsset;
-  final IconData? icon;
-  final Size iconSize;
+  final ActivityLevelModel level;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const ActivityLevelCard({
-    super.key,
-    required this.title,
-    this.iconAsset,
-    this.icon,
-    required this.iconSize,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const ActivityLevelCard({super.key, required this.level, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = isSelected ? AppColors.primaryDark : AppColors.textMuted;
+    final color = isSelected ? AppColors.primaryDark : AppColors.textMuted;
+    final size = level.iconSize;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -41,39 +33,30 @@ class ActivityLevelCard extends StatelessWidget {
           boxShadow: AppShadows.option,
         ),
         child: Stack(
+          alignment: Alignment.center,
           children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 48.r,
-                      height: 48.r,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: isSelected ? AppColors.white : AppColors.optionIconBackground,
-                        shape: BoxShape.circle,
-                      ),
-                      child: iconAsset != null
-                          ? AppSvgIcon(
-                              asset: iconAsset!,
-                              width: iconSize.width.r,
-                              height: iconSize.height.r,
-                              color: iconColor,
-                            )
-                          : Icon(icon, size: iconSize.width.r, color: iconColor),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      title,
-                      style: isSelected ? AppText.optionTitleSelected : AppText.optionTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 48.r,
+                    height: 48.r,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: isSelected ? AppColors.white : AppColors.optionIconBackground, shape: BoxShape.circle),
+                    child: level.iconAsset != null
+                        ? AppSvgIcon(asset: level.iconAsset!, width: size.width.r, height: size.height.r, color: color)
+                        : Icon(level.icon, size: size.width.r, color: color),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    level.titleKey.tr(context: context),
+                    style: isSelected ? AppText.optionTitleSelected : AppText.optionTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
             if (isSelected)

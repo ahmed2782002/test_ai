@@ -14,13 +14,7 @@ class GenderOption extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const GenderOption({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const GenderOption({super.key, required this.label, required this.icon, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

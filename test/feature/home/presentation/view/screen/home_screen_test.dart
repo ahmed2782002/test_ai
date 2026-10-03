@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_ui/feature/home/presentation/view/screen/home_screen.dart';
-import 'package:test_ui/feature/home/presentation/view/widgets/home_banner_slider.dart';
 import 'package:test_ui/feature/home/presentation/view/widgets/home_header.dart';
 import 'package:test_ui/feature/home/presentation/view/widgets/home_shimmer.dart';
 import 'package:test_ui/feature/spin_wheel/presentation/view/screen/spin_wheel_screen.dart';
 
 import '../../../../../helpers/pump_app.dart';
 
-/// `HomeMockData.fetchHome` waits 900 ms before returning the data.
+/// `HomeModel.fetch` waits 900 ms before returning the data.
 const Duration _homeLoadTime = Duration(milliseconds: 900);
 
 void main() {
@@ -102,7 +101,7 @@ void main() {
     testWidgets('opens the spin wheel when tapping a banner', (tester) async {
       await pumpLoadedHome(tester);
 
-      await tester.tap(find.byType(HomeBannerSlider));
+      await tester.tap(find.byType(PageView));
       await tester.pumpAndSettle();
 
       expect(find.byType(SpinWheelScreen), findsOneWidget);

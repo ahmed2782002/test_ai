@@ -2,8 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_digits.dart';
-import '../../mock_model/cinema_details_mock.dart';
-import '../../mock_model/comment_model.dart';
+import '../../mock_model/cinema_model.dart';
 import 'cinema_details_state.dart';
 
 class CinemaDetailsCubit extends Cubit<CinemaDetailsState> {
@@ -13,10 +12,15 @@ class CinemaDetailsCubit extends Cubit<CinemaDetailsState> {
 
   final TextEditingController commentController = TextEditingController();
 
-  void load() {
+  Future<void> load() async {
     emit(state.copyWith(status: CinemaDetailsStatus.loading));
-    const cinema = CinemaDetailsMock.data;
-    emit(state.copyWith(status: CinemaDetailsStatus.success, cinema: cinema, comments: cinema.comments));
+    try {
+      final cinema = await CinemaModel.fetch();
+      if (isClosed) return;
+      emit(state.copyWith(status: CinemaDetailsStatus.success, cinema: cinema, comments: cinema.comments));
+    } catch (_) {
+      if (!isClosed) emit(state.copyWith(status: CinemaDetailsStatus.failure));
+    }
   }
 
   int get filledStars => (state.cinema?.rating ?? 0).floor().clamp(0, starsCount);
@@ -32,9 +36,9 @@ class CinemaDetailsCubit extends Cubit<CinemaDetailsState> {
   void sendComment() {
     final text = commentController.text.trim();
     if (text.isEmpty) return;
-    final comment = CommentModel(
-      username: CinemaDetailsMock.currentUsername,
-      avatar: CinemaDetailsMock.currentUserAvatar,
+    final CommentModel comment = (
+      username: CinemaModel.currentUsername,
+      avatar: CinemaModel.currentUserAvatar,
       text: text,
     );
     commentController.clear();

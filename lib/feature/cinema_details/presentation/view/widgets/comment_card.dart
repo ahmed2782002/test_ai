@@ -5,13 +5,12 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/utils/app_bidi.dart';
+import '../../../mock_model/cinema_model.dart';
 
 class CommentCard extends StatelessWidget {
-  final String avatar;
-  final String username;
-  final String text;
+  final CommentModel comment;
 
-  const CommentCard({super.key, required this.avatar, required this.username, required this.text});
+  const CommentCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class CommentCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 4.h),
             child: ClipOval(
-              child: Image.asset(avatar, width: 40.r, height: 40.r, fit: BoxFit.cover),
+              child: Image.asset(comment.avatar, width: 40.r, height: 40.r, fit: BoxFit.cover),
             ),
           ),
           SizedBox(width: 11.w),
@@ -36,9 +35,14 @@ class CommentCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppBidi.isolate(username), style: AppText.commentUsername, maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(
+                  AppBidi.isolate(comment.username),
+                  style: AppText.commentUsername,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 SizedBox(height: 2.h),
-                Text(AppBidi.isolate(text), style: AppText.commentBody),
+                Text(AppBidi.isolate(comment.text), style: AppText.commentBody),
               ],
             ),
           ),

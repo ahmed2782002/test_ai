@@ -1,5 +1,4 @@
 import '../../mock_model/cinema_model.dart';
-import '../../mock_model/comment_model.dart';
 
 enum CinemaDetailsStatus { loading, success, failure }
 

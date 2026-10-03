@@ -6,23 +6,15 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/utils/app_bidi.dart';
 import '../../../../../core/utils/app_icons.dart';
+import '../../../mock_model/movie_model.dart';
 import 'movie_info_row.dart';
 
 class MovieCard extends StatelessWidget {
-  final String poster;
-  final String title;
+  final MovieModel movie;
   final String rating;
   final String duration;
-  final String genres;
 
-  const MovieCard({
-    super.key,
-    required this.poster,
-    required this.title,
-    required this.rating,
-    required this.duration,
-    required this.genres,
-  });
+  const MovieCard({super.key, required this.movie, required this.rating, required this.duration});
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +27,18 @@ class MovieCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.compact),
           child: AspectRatio(
             aspectRatio: 176 / 265,
-            child: Image.asset(poster, fit: BoxFit.cover),
+            child: Image.asset(movie.poster, fit: BoxFit.cover),
           ),
         ),
         SizedBox(height: 6.h),
         SizedBox(
           height: titleHeight,
-          child: Text(AppBidi.isolate(title), style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+          child: Text(AppBidi.isolate(movie.title), style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
         ),
         SizedBox(height: 5.h),
         MovieInfoRow(icon: AppIcons.starSharp, iconColor: AppColors.ratingStar, text: rating),
         MovieInfoRow(icon: AppIcons.duration, iconColor: AppColors.cinemaIcon, text: duration),
-        MovieInfoRow(icon: AppIcons.genre, iconColor: AppColors.cinemaIcon, text: AppBidi.isolate(genres)),
+        MovieInfoRow(icon: AppIcons.genre, iconColor: AppColors.cinemaIcon, text: AppBidi.isolate(movie.genres)),
       ],
     );
   }

@@ -23,11 +23,15 @@ class _FixedStatusCinemaCubit extends CinemaDetailsCubit {
   int loadCalls = 0;
 
   @override
-  void load() {
+  Future<void> load() async {
     loadCalls++;
     emit(CinemaDetailsState(status: _status));
   }
 }
+
+Finder _commentCards() => find.byType(CommentCard, skipOffstage: false);
+
+Finder _movieCards() => find.byType(MovieCard);
 
 void main() {
   late CinemaDetailsCubit cubit;
@@ -71,10 +75,10 @@ void main() {
 
       expect(find.textContaining('IMAX cinema', findRichText: true), findsOneWidget);
       expect(find.text('Movies'), findsOneWidget);
-      expect(find.byType(MovieCard), findsNWidgets(2));
+      expect(_movieCards(), findsNWidgets(2));
       expect(find.textContaining('Shazam: Fury of the Gods'), findsOneWidget);
       expect(find.text('2 hour 5 minutes'), findsNWidgets(2));
-      expect(find.byType(CommentCard, skipOffstage: false), findsNWidgets(3));
+      expect(_commentCards(), findsNWidgets(3));
     });
 
     testWidgets('fills 4 of 5 stars for a 4.8 rating', (tester) async {
@@ -102,7 +106,7 @@ void main() {
       await tester.tap(find.byIcon(AppIcons.send));
       await tester.pump();
 
-      expect(find.byType(CommentCard, skipOffstage: false), findsNWidgets(4));
+      expect(_commentCards(), findsNWidgets(4));
       expect(find.textContaining('Great sound', skipOffstage: false), findsOneWidget);
       expect(find.textContaining('@me', skipOffstage: false), findsOneWidget);
     });
@@ -127,7 +131,7 @@ void main() {
       await tester.tap(find.byIcon(AppIcons.send));
       await tester.pump();
 
-      expect(find.byType(CommentCard, skipOffstage: false), findsNWidgets(3));
+      expect(_commentCards(), findsNWidgets(3));
     });
   });
 

@@ -16,6 +16,8 @@ import 'package:test_ui/feature/cinema_details/presentation/view_model/cinema_de
 const String captureDir = String.fromEnvironment('CINEMA_CAPTURE_DIR');
 const ValueKey<String> boundaryKey = ValueKey('cinema-boundary');
 
+Finder commentCards({bool skipOffstage = true}) => find.byType(CommentCard, skipOffstage: skipOffstage);
+
 Future<void> loadFonts() async {
   final regular = File('C:/Windows/Fonts/segoeui.ttf');
   if (!regular.existsSync()) return;
@@ -106,7 +108,7 @@ void main() {
   for (final locale in const [Locale('ar'), Locale('en')]) {
     testWidgets('cinema details full capture ${locale.languageCode}', (tester) async {
       await pumpCinema(tester, locale: locale, size: const Size(390, 1194), designSize: const Size(390, 1194));
-      expect(find.byType(CommentCard), findsNWidgets(3));
+      expect(commentCards(), findsNWidgets(3));
       await capture(tester, 'cinema_full_${locale.languageCode}');
       expect(tester.takeException(), isNull);
     });
@@ -136,7 +138,7 @@ void main() {
     await tester.enterText(find.byType(TextField), 'Nice place');
     await tester.testTextInput.receiveAction(TextInputAction.send);
     await tester.pump();
-    expect(find.byType(CommentCard, skipOffstage: false), findsNWidgets(4));
+    expect(commentCards(skipOffstage: false), findsNWidgets(4));
     expect(find.textContaining('Nice place', skipOffstage: false), findsOneWidget);
   });
 }

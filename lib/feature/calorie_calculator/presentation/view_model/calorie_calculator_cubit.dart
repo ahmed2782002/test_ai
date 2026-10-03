@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../mock_model/activity_level_model.dart';
-import '../../mock_model/gender.dart';
 import '../../mock_model/goal_model.dart';
 import 'calorie_calculator_state.dart';
 
@@ -17,10 +16,6 @@ class CalorieCalculatorCubit extends Cubit<CalorieCalculatorState> {
 
   List<ActivityLevelModel> get activityLevels => ActivityLevelModel.mock;
   List<GoalModel> get goals => GoalModel.mock;
-
-  bool isGenderSelected(Gender gender) => state.gender == gender;
-  bool isActivitySelected(int index) => state.activityIndex == index;
-  bool isGoalSelected(int index) => state.goalIndex == index;
 
   void selectGender(Gender gender) => emit(state.copyWith(gender: gender));
   void selectActivity(int index) => emit(state.copyWith(activityIndex: index));

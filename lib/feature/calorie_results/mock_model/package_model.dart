@@ -1,4 +1,6 @@
-import 'package_feature_model.dart';
+import 'package:flutter/widgets.dart';
+
+typedef PackageFeature = ({String icon, Size iconSize, String title});
 
 class PackageModel {
   final String name;
@@ -6,7 +8,7 @@ class PackageModel {
   final String image;
   final int monthlyPrice;
   final bool fitsGoal;
-  final List<PackageFeatureModel> features;
+  final List<PackageFeature> features;
 
   const PackageModel({
     required this.name,

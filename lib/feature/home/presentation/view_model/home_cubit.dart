@@ -4,8 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../mock_model/home_mock_data.dart';
-import '../../mock_model/quick_action_type.dart';
+import '../../mock_model/home_model.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -22,13 +21,13 @@ class HomeCubit extends Cubit<HomeState> {
   List<QuickActionType> get quickActions => QuickActionType.values;
 
   double get stepsProgress {
-    final steps = state.home?.steps;
-    if (steps == null || steps.goal == 0) return 0;
-    return (steps.todaySteps / steps.goal).clamp(0, 1).toDouble();
+    final home = state.home;
+    if (home == null || home.stepsGoal == 0) return 0;
+    return (home.todaySteps / home.stepsGoal).clamp(0, 1).toDouble();
   }
 
   List<double> get weeklyStepsFactors {
-    final weekly = state.home?.steps.weeklySteps ?? const <int>[];
+    final weekly = state.home?.weeklySteps ?? const <int>[];
     if (weekly.isEmpty) return const [];
     final maxSteps = weekly.reduce(math.max);
     return weekly.map((steps) => maxSteps == 0 ? 0.0 : steps / maxSteps).toList();
@@ -37,7 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> loadHome() async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      final home = await HomeMockData.fetchHome();
+      final home = await HomeModel.fetch();
       if (isClosed) return;
       emit(state.copyWith(status: HomeStatus.success, home: home));
       startBannerAutoSlide();

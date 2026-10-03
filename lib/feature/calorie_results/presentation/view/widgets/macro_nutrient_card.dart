@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,29 +7,16 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_shadows.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/widgets/app_icon_circle/app_icon_circle.dart';
+import '../../../mock_model/calorie_results_model.dart';
 
 class MacroNutrientCard extends StatelessWidget {
-  final String icon;
-  final Size iconSize;
-  final Color color;
-  final Color lightColor;
-  final String name;
-  final String value;
-  final double progress;
+  final MacroNutrient macro;
 
-  const MacroNutrientCard({
-    super.key,
-    required this.icon,
-    required this.iconSize,
-    required this.color,
-    required this.lightColor,
-    required this.name,
-    required this.value,
-    required this.progress,
-  });
+  const MacroNutrientCard({super.key, required this.macro});
 
   @override
   Widget build(BuildContext context) {
+    final type = macro.type;
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -40,11 +28,11 @@ class MacroNutrientCard extends StatelessWidget {
       child: Row(
         children: [
           AppIconCircle(
-            icon: icon,
+            icon: type.icon,
             size: 48.r,
-            iconWidth: iconSize.width.r,
-            iconHeight: iconSize.height.r,
-            backgroundColor: lightColor,
+            iconWidth: type.iconSize.width.r,
+            iconHeight: type.iconSize.height.r,
+            backgroundColor: type.lightColor,
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -54,10 +42,18 @@ class MacroNutrientCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(name, style: AppText.bodyMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        type.labelKey.tr(context: context),
+                        style: AppText.bodyMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     SizedBox(width: 8.w),
-                    Text(value, style: AppText.valueBold.copyWith(color: color)),
+                    Text(
+                      '${macro.grams}${'calorie_results.gram'.tr(context: context)}',
+                      style: AppText.valueBold.copyWith(color: type.color),
+                    ),
                   ],
                 ),
                 SizedBox(height: 4.h),
@@ -69,10 +65,10 @@ class MacroNutrientCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: FractionallySizedBox(
-                    widthFactor: progress.clamp(0, 1).toDouble(),
+                    widthFactor: macro.progress.clamp(0, 1).toDouble(),
                     heightFactor: 1,
                     child: Container(
-                      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(AppRadius.pill)),
+                      decoration: BoxDecoration(color: type.color, borderRadius: BorderRadius.circular(AppRadius.pill)),
                     ),
                   ),
                 ),

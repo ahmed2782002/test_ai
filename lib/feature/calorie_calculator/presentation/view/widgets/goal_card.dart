@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,27 +7,16 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_shadows.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/utils/app_icons.dart';
+import '../../../../../core/widgets/app_icon_circle/app_icon_circle.dart';
 import '../../../../../core/widgets/app_svg_icon/app_svg_icon.dart';
+import '../../../mock_model/goal_model.dart';
 
 class GoalCard extends StatelessWidget {
-  final String title;
-  final String icon;
-  final Size iconSize;
-  final Color iconColor;
-  final Color iconBackground;
+  final GoalModel goal;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const GoalCard({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.iconSize,
-    required this.iconColor,
-    required this.iconBackground,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const GoalCard({super.key, required this.goal, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +33,20 @@ class GoalCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 40.r,
-              height: 40.r,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.white : iconBackground,
-                shape: BoxShape.circle,
-              ),
-              child: AppSvgIcon(
-                asset: icon,
-                width: iconSize.width.r,
-                height: iconSize.height.r,
-                color: iconColor,
-              ),
+            AppIconCircle(
+              icon: goal.icon,
+              size: 40.r,
+              iconWidth: goal.iconSize.width.r,
+              iconHeight: goal.iconSize.height.r,
+              iconColor: goal.iconColor,
+              backgroundColor: isSelected ? AppColors.white : goal.iconBackground,
             ),
             SizedBox(width: 16.w),
             Expanded(
-              child: Text(title, style: isSelected ? AppText.optionTitleSelected : AppText.optionTitle),
+              child: Text(
+                goal.titleKey.tr(context: context),
+                style: isSelected ? AppText.optionTitleSelected : AppText.optionTitle,
+              ),
             ),
             if (isSelected) AppSvgIcon(asset: AppIcons.checkCircle, width: 20.r, height: 20.r),
           ],

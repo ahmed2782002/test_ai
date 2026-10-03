@@ -1,19 +1,29 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_ui/core/utils/app_icons.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/calculate_bottom_bar.dart';
-import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/counter_field.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/counter_action_button.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/counter_field_row.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/gender_option.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/gender_selector.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view_model/calorie_calculator_state.dart';
 
 import '../../../../../helpers/pump_app.dart';
 
+Finder _genderCheckOn(String label) =>
+    find.descendant(of: find.widgetWithText(GenderOption, label), matching: find.byIcon(AppIcons.check));
+
 void main() {
-  group('CounterField', () {
-    testWidgets('shows the value and calls the matching callback', (tester) async {
+  group('CounterFieldRow', () {
+    testWidgets('shows the label, unit and value and calls the matching callback', (tester) async {
       var increases = 0;
       var decreases = 0;
-      await tester.pumpApp(CounterField(value: 42, onIncrease: () => increases++, onDecrease: () => decreases++));
+      await tester.pumpApp(
+        CounterFieldRow(label: 'Weight', unit: 'kg', value: 42, onIncrease: () => increases++, onDecrease: () => decreases++),
+      );
 
+      expect(find.byType(CounterActionButton), findsNWidgets(2));
       expect(find.text('42'), findsOneWidget);
+      expect(find.text('Weightkg', findRichText: true), findsOneWidget);
 
       await tester.tap(find.byIcon(AppIcons.plus));
       await tester.tap(find.byIcon(AppIcons.plus));
@@ -25,28 +35,33 @@ void main() {
     });
   });
 
-  group('GenderOption', () {
-    testWidgets('shows a check mark only when selected', (tester) async {
-      await tester.pumpApp(GenderOption(label: 'Female', icon: AppIcons.female, isSelected: true, onTap: () {}));
+  group('GenderSelector', () {
+    testWidgets('shows a check mark only on the selected option', (tester) async {
+      await tester.pumpApp(GenderSelector(selected: Gender.female, onSelect: (_) {}));
 
       expect(find.text('Female'), findsOneWidget);
+      expect(find.text('Male'), findsOneWidget);
+      expect(find.byType(GenderOption), findsNWidgets(2));
       expect(find.byIcon(AppIcons.check), findsOneWidget);
+      expect(_genderCheckOn('Female'), findsOneWidget);
+      expect(_genderCheckOn('Male'), findsNothing);
     });
 
-    testWidgets('hides the check mark when not selected', (tester) async {
-      await tester.pumpApp(GenderOption(label: 'Female', icon: AppIcons.female, isSelected: false, onTap: () {}));
+    testWidgets('moves the check mark when the other gender is selected', (tester) async {
+      await tester.pumpApp(GenderSelector(selected: Gender.male, onSelect: (_) {}));
 
-      expect(find.byIcon(AppIcons.check), findsNothing);
+      expect(_genderCheckOn('Male'), findsOneWidget);
+      expect(_genderCheckOn('Female'), findsNothing);
     });
 
-    testWidgets('calls onTap when tapped', (tester) async {
-      var taps = 0;
-      await tester.pumpApp(GenderOption(label: 'Male', icon: AppIcons.male, isSelected: false, onTap: () => taps++));
+    testWidgets('calls onSelect with the tapped gender', (tester) async {
+      final selections = <Gender>[];
+      await tester.pumpApp(GenderSelector(selected: Gender.female, onSelect: selections.add));
 
       await tester.tap(find.text('Male'));
       await tester.pump();
 
-      expect(taps, 1);
+      expect(selections, [Gender.male]);
     });
   });
 

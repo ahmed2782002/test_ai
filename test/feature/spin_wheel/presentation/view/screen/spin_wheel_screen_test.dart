@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_ui/feature/spin_wheel/presentation/view/screen/spin_wheel_screen.dart';
-import 'package:test_ui/feature/spin_wheel/presentation/view/widgets/spin_wheel/spin_wheel_hub.dart';
+import 'package:test_ui/feature/spin_wheel/presentation/view/widgets/spin_wheel/spin_wheel.dart';
 import 'package:test_ui/feature/spin_wheel/presentation/view/widgets/spin_wheel/spin_wheel_label.dart';
 import 'package:test_ui/feature/spin_wheel/presentation/view_model/spin_wheel_cubit.dart';
 
@@ -53,7 +53,7 @@ void main() {
     testWidgets('announces the prize after tapping the wheel hub', (tester) async {
       await pumpScreen(tester);
 
-      await tester.tap(find.byType(SpinWheelHub));
+      await tester.tap(find.descendant(of: find.byType(SpinWheel), matching: find.byType(GestureDetector)));
       await finishSpin(tester);
 
       expect(find.textContaining('Congrats! You won'), findsOneWidget);

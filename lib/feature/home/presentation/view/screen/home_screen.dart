@@ -5,17 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_text.dart';
+import '../../../../../core/utils/app_icons.dart';
+import '../../../../../core/widgets/app_error_view/app_error_view.dart';
 import '../../../../spin_wheel/presentation/view/screen/spin_wheel_screen.dart';
 import '../../view_model/home_cubit.dart';
 import '../../view_model/home_state.dart';
 import '../widgets/health_tip_card.dart';
-import '../widgets/home_banner_slider.dart';
-import '../widgets/home_error_view.dart';
+import '../widgets/home_banner_actions.dart';
 import '../widgets/home_header.dart';
 import '../widgets/home_search_field.dart';
 import '../widgets/home_shimmer.dart';
 import '../widgets/packages_section.dart';
-import '../widgets/quick_actions_list.dart';
 import '../widgets/steps_card.dart';
 import '../widgets/suggested_meal_card.dart';
 
@@ -36,7 +36,15 @@ class HomeScreen extends StatelessWidget {
             final cubit = context.read<HomeCubit>();
             final home = state.home;
             if (state.status == HomeStatus.loading) return HomeShimmer(padding: padding);
-            if (state.status == HomeStatus.error || home == null) return HomeErrorView(onRetry: cubit.loadHome);
+            if (state.status == HomeStatus.error || home == null) {
+              return AppErrorView(
+                message: context.tr('home.error_message'),
+                retryText: context.tr('home.retry'),
+                onRetry: cubit.loadHome,
+                messageStyle: AppText.homeLabel,
+                icon: AppIcons.retry,
+              );
+            }
             final languageCode = context.locale.languageCode;
             return ListView(
               padding: padding,
@@ -44,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: HomeHeader(
-                    name: home.user.name.of(languageCode),
-                    avatar: home.user.avatar,
-                    hasUnreadNotifications: home.user.hasUnreadNotifications,
+                    name: home.userName.of(languageCode),
+                    avatar: home.userAvatar,
+                    hasUnreadNotifications: home.hasUnreadNotifications,
                     onNotificationTap: () {},
                   ),
                 ),
@@ -56,20 +64,20 @@ class HomeScreen extends StatelessWidget {
                   child: HomeSearchField(controller: cubit.searchController, hint: context.tr('home.search_hint')),
                 ),
                 SizedBox(height: 22.h),
-                HomeBannerSlider(
+                HomeBannerActions(
                   banners: home.banners,
-                  controller: cubit.bannerController,
-                  onBannerTap: (banner) => Navigator.push(
+                  bannerController: cubit.bannerController,
+                  actions: cubit.quickActions,
+                  onBannerTap: (index) => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const SpinWheelScreen()),
                   ),
+                  onActionTap: (action) {},
                 ),
-                SizedBox(height: 20.h),
-                QuickActionsList(actions: cubit.quickActions, onActionTap: (action) {}),
                 SizedBox(height: 18.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: SuggestedMealCard(meal: home.mealOfTheDay, onViewMeal: () {}),
+                  child: SuggestedMealCard(home: home, onViewMeal: () {}),
                 ),
                 SizedBox(height: 26.h),
                 PackagesSection(
@@ -87,15 +95,17 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: StepsCard(steps: home.steps, weeklyFactors: cubit.weeklyStepsFactors, onTap: () {}),
+                  child: StepsCard(
+                    todaySteps: home.todaySteps,
+                    goal: home.stepsGoal,
+                    weeklyFactors: cubit.weeklyStepsFactors,
+                    onTap: () {},
+                  ),
                 ),
                 SizedBox(height: 22.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: HealthTipCard(
-                    title: context.tr('home.health_tip_title'),
-                    body: home.healthTip.body.of(languageCode),
-                  ),
+                  child: HealthTipCard(title: context.tr('home.health_tip_title'), body: home.healthTip.of(languageCode)),
                 ),
               ],
             );

@@ -6,15 +6,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_text.dart';
+import '../../../../../core/widgets/app_error_view/app_error_view.dart';
 import '../../view_model/cinema_details_cubit.dart';
 import '../../view_model/cinema_details_state.dart';
 import '../widgets/add_comment_bar.dart';
-import '../widgets/cinema_details_error_view.dart';
+import '../widgets/cinema_comments_section.dart';
 import '../widgets/cinema_details_shimmer.dart';
 import '../widgets/cinema_header.dart';
 import '../widgets/cinema_info_panel.dart';
-import '../widgets/comment_card.dart';
-import '../widgets/movie_card.dart';
+import '../widgets/cinema_movies_section.dart';
 
 class CinemaDetailsScreen extends StatelessWidget {
   const CinemaDetailsScreen({super.key});
@@ -35,10 +35,11 @@ class CinemaDetailsScreen extends StatelessWidget {
             }
             if (state.status == CinemaDetailsStatus.failure || cinema == null) {
               return SafeArea(
-                child: CinemaDetailsErrorView(
+                child: AppErrorView(
                   message: 'cinema_details.error'.tr(context: context),
                   retryText: 'cinema_details.retry'.tr(context: context),
                   onRetry: cubit.load,
+                  messageStyle: AppText.cinemaRating,
                 ),
               );
             }
@@ -64,54 +65,24 @@ class CinemaDetailsScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 26.h),
-                        Padding(
-                          padding: EdgeInsetsDirectional.only(start: 17.w),
-                          child: Text('cinema_details.movies'.tr(context: context), style: AppText.cinemaSectionTitle),
-                        ),
-                        SizedBox(height: 10.h),
-                        Padding(
-                          padding: EdgeInsetsDirectional.only(start: 16.w, end: 12.w),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) => Wrap(
-                              spacing: 14.w,
-                              runSpacing: 24.h,
-                              children: [
-                                for (final movie in cinema.movies)
-                                  SizedBox(
-                                    width: (constraints.maxWidth - 14.w) / 2,
-                                    child: MovieCard(
-                                      poster: movie.poster,
-                                      title: movie.title,
-                                      rating:
-                                          '${cubit.rating(movie.rating, languageCode)} ${cubit.reviewsCount(movie.reviewsCount, languageCode)}',
-                                      duration: 'cinema_details.duration'.tr(
-                                        context: context,
-                                        args: [
-                                          cubit.hours(movie.durationMinutes, languageCode),
-                                          cubit.minutes(movie.durationMinutes, languageCode),
-                                        ],
-                                      ),
-                                      genres: movie.genres,
-                                    ),
-                                  ),
-                              ],
-                            ),
+                        CinemaMoviesSection(
+                          title: 'cinema_details.movies'.tr(context: context),
+                          movies: cinema.movies,
+                          ratingOf: (movie) =>
+                              '${cubit.rating(movie.rating, languageCode)} ${cubit.reviewsCount(movie.reviewsCount, languageCode)}',
+                          durationOf: (movie) => 'cinema_details.duration'.tr(
+                            context: context,
+                            args: [
+                              cubit.hours(movie.durationMinutes, languageCode),
+                              cubit.minutes(movie.durationMinutes, languageCode),
+                            ],
                           ),
                         ),
                         SizedBox(height: 32.h),
-                        Padding(
-                          padding: EdgeInsetsDirectional.only(start: 9.w),
-                          child: Text(
-                            'cinema_details.comments'.tr(context: context),
-                            style: AppText.cinemaSectionTitleLight,
-                          ),
+                        CinemaCommentsSection(
+                          title: 'cinema_details.comments'.tr(context: context),
+                          comments: state.comments,
                         ),
-                        SizedBox(height: 15.h),
-                        for (final comment in state.comments)
-                          Padding(
-                            padding: EdgeInsetsDirectional.only(start: 10.w, end: 37.w, bottom: 22.h),
-                            child: CommentCard(avatar: comment.avatar, username: comment.username, text: comment.text),
-                          ),
                       ],
                     ),
                   ),

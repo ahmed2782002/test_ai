@@ -1,5 +1,13 @@
-import 'localized_text.dart';
-import 'package_period.dart';
+import '../../../core/utils/localized_text.dart';
+
+enum PackagePeriod {
+  monthly('home.period.monthly'),
+  weekly('home.period.weekly');
+
+  final String translationKey;
+
+  const PackagePeriod(this.translationKey);
+}
 
 class PackageModel {
   final int id;

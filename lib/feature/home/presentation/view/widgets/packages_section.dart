@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/theme/app_text.dart';
 import '../../../mock_model/package_model.dart';
-import 'home_section_header.dart';
 import 'package_card.dart';
 
 class PackagesSection extends StatelessWidget {
@@ -28,7 +29,14 @@ class PackagesSection extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: HomeSectionHeader(title: title, titleStyle: titleStyle, onViewAll: onViewAll),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(title, style: titleStyle ?? AppText.homeHeadline, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
+              GestureDetector(onTap: onViewAll, child: Text(context.tr('home.view_all'), style: AppText.link)),
+            ],
+          ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

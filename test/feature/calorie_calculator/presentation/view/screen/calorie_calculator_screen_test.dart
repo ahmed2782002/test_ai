@@ -6,26 +6,37 @@ import 'package:test_ui/core/widgets/app_header/app_header.dart';
 import 'package:test_ui/core/widgets/app_svg_icon/app_svg_icon.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/screen/calorie_calculator_screen.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/activity_level_card.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/counter_action_button.dart';
+import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/counter_field_row.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/gender_option.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/goal_card.dart';
-import 'package:test_ui/feature/calorie_calculator/presentation/view/widgets/labeled_field_row.dart';
 import 'package:test_ui/feature/calorie_calculator/presentation/view_model/calorie_calculator_cubit.dart';
 import 'package:test_ui/feature/calorie_results/presentation/view/screen/calorie_results_screen.dart';
 
 import '../../../../../helpers/pump_app.dart';
 
-Finder _counterOf(String label) => find.byWidgetPredicate((widget) => widget is LabeledFieldRow && widget.label == label);
+Finder _counterOf(String label) => find.byWidgetPredicate((widget) => widget is CounterFieldRow &&widget.label == label);
 
-Finder _plusOf(String label) => find.descendant(of: _counterOf(label), matching: find.byIcon(AppIcons.plus));
+Finder _actionOf(String label, IconData icon) => find.descendant(
+  of: _counterOf(label),
+  matching: find.byWidgetPredicate((widget) => widget is CounterActionButton && widget.icon == icon),
+);
 
-Finder _minusOf(String label) => find.descendant(of: _counterOf(label), matching: find.byIcon(AppIcons.minus));
+Finder _plusOf(String label) => _actionOf(label, AppIcons.plus);
+
+Finder _minusOf(String label) => _actionOf(label, AppIcons.minus);
 
 Finder _valueOf(String label, int value) => find.descendant(of: _counterOf(label), matching: find.text('$value'));
 
 final Finder _checkCircle = find.byWidgetPredicate((widget) => widget is AppSvgIcon && widget.asset == AppIcons.checkCircle);
 
-Finder _checkMarkOn<T extends Widget>(String title) =>
-    find.descendant(of: find.widgetWithText(T, title), matching: _checkCircle);
+/// Each option (gender / activity level / goal) is its own card widget [T].
+Finder _optionCard<T extends Widget>(String title) => find.widgetWithText(T, title);
+
+Finder _checkMarkOn<T extends Widget>(String title) => find.descendant(of: _optionCard<T>(title), matching: _checkCircle);
+
+Finder _genderCheckOn(String label) =>
+    find.descendant(of: _optionCard<GenderOption>(label), matching: find.byIcon(AppIcons.check));
 
 void main() {
   late CalorieCalculatorCubit cubit;
@@ -64,7 +75,7 @@ void main() {
     testWidgets('pre-selects male, moderate activity and maintain weight', (tester) async {
       await pumpScreen(tester);
 
-      expect(find.descendant(of: find.widgetWithText(GenderOption, 'Male'), matching: find.byIcon(AppIcons.check)), findsOneWidget);
+      expect(_genderCheckOn('Male'), findsOneWidget);
       expect(_checkMarkOn<ActivityLevelCard>('Moderate'), findsOneWidget);
       expect(_checkMarkOn<GoalCard>('Maintain weight'), findsOneWidget);
     });
@@ -108,8 +119,8 @@ void main() {
       await tester.tap(find.text('Female'));
       await tester.pumpAndSettle();
 
-      expect(find.descendant(of: find.widgetWithText(GenderOption, 'Female'), matching: find.byIcon(AppIcons.check)), findsOneWidget);
-      expect(find.descendant(of: find.widgetWithText(GenderOption, 'Male'), matching: find.byIcon(AppIcons.check)), findsNothing);
+      expect(_genderCheckOn('Female'), findsOneWidget);
+      expect(_genderCheckOn('Male'), findsNothing);
     });
 
     testWidgets('selects a different activity level', (tester) async {

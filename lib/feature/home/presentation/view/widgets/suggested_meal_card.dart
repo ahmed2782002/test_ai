@@ -8,18 +8,20 @@ import '../../../../../core/theme/app_shadows.dart';
 import '../../../../../core/theme/app_text.dart';
 import '../../../../../core/utils/app_digits.dart';
 import '../../../../../core/utils/app_icons.dart';
-import '../../../mock_model/meal_model.dart';
+import '../../../mock_model/home_model.dart';
 import 'meal_nutrient_info.dart';
 
 class SuggestedMealCard extends StatelessWidget {
-  final MealModel meal;
+  final HomeModel home;
   final VoidCallback onViewMeal;
 
-  const SuggestedMealCard({super.key, required this.meal, required this.onViewMeal});
+  const SuggestedMealCard({super.key, required this.home, required this.onViewMeal});
 
   @override
   Widget build(BuildContext context) {
     final languageCode = context.locale.languageCode;
+    final calories = context.tr('home.calories_value', args: [AppDigits.format(home.mealCalories, languageCode)]);
+    final protein = context.tr('home.protein_value', args: [AppDigits.format(home.mealProtein, languageCode)]);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -30,7 +32,7 @@ class SuggestedMealCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.asset(meal.image, height: 160.h, fit: BoxFit.cover),
+          Image.asset(home.mealImage, height: 160.h, fit: BoxFit.cover),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(16.w, 20.h, 16.w, 15.h),
             child: Column(
@@ -45,7 +47,7 @@ class SuggestedMealCard extends StatelessWidget {
                         children: [
                           Text(context.tr('home.meal_of_the_day'), style: AppText.accentCaption),
                           SizedBox(height: 16.h),
-                          Text(meal.name.of(languageCode), style: AppText.mealTitle),
+                          Text(home.mealName.of(languageCode), style: AppText.mealTitle),
                         ],
                       ),
                     ),
@@ -53,15 +55,9 @@ class SuggestedMealCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        MealNutrientInfo(
-                          icon: AppIcons.calories,
-                          text: context.tr('home.calories_value', args: [AppDigits.format(meal.calories, languageCode)]),
-                        ),
+                        MealNutrientInfo(icon: AppIcons.calories, text: calories),
                         SizedBox(height: 18.h),
-                        MealNutrientInfo(
-                          icon: AppIcons.protein,
-                          text: context.tr('home.protein_value', args: [AppDigits.format(meal.protein, languageCode)]),
-                        ),
+                        MealNutrientInfo(icon: AppIcons.protein, text: protein),
                       ],
                     ),
                   ],
